@@ -61,14 +61,19 @@ class ProdutoController extends AbstractController
     public function store(Request $request, bool $returnEntity = false)
     {
 
-        $entity = parent::store($request, true);
+        $input = $request->all();
+        //verifica se ja existe cadastrado um produto com mesmo codigo
+        $produto = Produto::where('hash', '=' , $input['hash'])->first();
 
-        if(!is_null($request['providers'])){
-            $providers = Provider::find($request['providers']);
-            $entity->providers()->attach($providers);
+        if(is_null($produto))
+        {
+            $entity = parent::store($request, true);
+
+            return redirect()->route($this->routePrefix . '.index');
+        }else{
+            return  redirect()->route($this->routePrefix . '.create');
         }
 
-        return redirect()->route($this->routePrefix . '.index');
 
     }
 
@@ -83,7 +88,7 @@ class ProdutoController extends AbstractController
         return Validator::make($data, [
             'descricao' => 'required|string|max:255',
             'hash' => 'required|string|max:255',
-            'preco' => 'required|numeric|between:0,999.99',
+            'preco' => 'required|integer|min:0',
         ]);
     }
 

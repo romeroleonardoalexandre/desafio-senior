@@ -14,6 +14,7 @@
 - Renomear arquivo `.env.example` para `.env` .
 - Rodar o comando `php artisan migrate`. 
 - `php artisan serve` para iniciar a aplicação no http://localhost:8000/
+- na tela de login use email e senha respectivamente `vendedor@senior.com.br` e `123123`.
 
 ## About Laravel
 
