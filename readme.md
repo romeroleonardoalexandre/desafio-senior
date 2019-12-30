@@ -9,9 +9,9 @@
 
 ## instalação
 
-- Instalar o [composer] (https://getcomposer.org/).
+- Instalar o [composer](https://getcomposer.org/).
 - Na pasta do projeto rode o comando `composer install` para instalar as dependencias
-- Criar o schema do mysql com o nome que esta no `.env`.
+- Renomear arquivo `.env.example` para `.env` .
 - Rodar o comando `php artisan migrate`. 
 
 ## About Laravel
