@@ -4,12 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class VendaProduto extends Model
+class ProdutoVenda extends Model
 {
 
-    public $primaryKey = 'id';
-
-    protected $table = 'venda_produto';
+    protected $table = 'produto_venda';
 
     /**
      * The attributes that are mass assignable.
