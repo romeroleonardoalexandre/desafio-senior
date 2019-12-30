@@ -38,8 +38,6 @@ class VendaController extends Controller
      */
     protected $othersParams = array();
 
-
-
     /**
      * Create a new controller instance.
      *
@@ -61,6 +59,12 @@ class VendaController extends Controller
         return view($this->routePrefix . '.index', ['venda_numero' => Venda::max('id') + 1, 'total_vendas' => $this->getTotalVendas()]);
     }
 
+
+    /**
+     * Busca total de vendas efetivadas
+     *
+     * @return string
+     */
     private function getTotalVendas()
     {
         return $vendas = DB::table('vendas')->where('confirmado', '=' ,'S')->sum('valor_total');
@@ -69,22 +73,25 @@ class VendaController extends Controller
     public function store(Request $request, bool $returnEntity = false)
     {
 
-        $total = 0;
-        foreach($request['produtos'] as $prod)
+        if(isset($request['produtos']))
         {
-            $produto = Produto::find($prod);
-            $total += (float) $produto->preco;
+            $total = 0;
+            foreach($request['produtos'] as $prod)
+            {
+                $produto = Produto::find($prod);
+                $total += (float) $produto->preco;
 
-        }
+            }
 
-        $venda = Venda::create(['valor_total'=> $total, 'confirmado'=> $request['action']]);
+            $venda = Venda::create(['valor_total'=> $total, 'confirmado'=> $request['action']]);
 
+            foreach($request['produtos'] as $prod)
+            {
+                $produto = Produto::find($prod);
 
-        foreach($request['produtos'] as $prod)
-        {
-            $produto = Produto::find($prod);
+                $venda->produtos()->attach($produto);
 
-            $venda->produtos()->attach($produto);
+            }
 
         }
 
@@ -93,15 +100,10 @@ class VendaController extends Controller
     }
 
      /**
-
      * Ajax para buscar os produtos
-
      *
-
-     * @return void
-
+     * @return mixed
      */
-
     public function buscaProduto(Request $request)
     {
 

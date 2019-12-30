@@ -83,7 +83,7 @@ class ProdutoController extends AbstractController
         return Validator::make($data, [
             'descricao' => 'required|string|max:255',
             'hash' => 'required|string|max:255',
-            'preco' => 'required|integer|min:0',
+            'preco' => 'required|numeric|between:0,999.99',
         ]);
     }
 
