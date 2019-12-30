@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+   	RewriteEngine on
+	#RewriteCond %{HTTPS} !=on
+	#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+   	RewriteBase /
+   	RewriteRule ^(?!public/)(.*)$ public/$1 [QSA,L]
+</IfModule>
+
+php_value upload_max_filesize 30M
+php_value post_max_size 30M
+php_value max_execution_time 300
+php_value max_input_time 300
